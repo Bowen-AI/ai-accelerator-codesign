@@ -1,50 +1,45 @@
-# Official materials and a six-week reading path
+# Course reference guide
 
-This is an independent, original study guide, **not** an official Stanford or MIT course, and not a mirror of university lecture slides, videos or assignment solutions. Links go to the university-maintained originals. Some course-lab environments need enrollment or cloud compute.
+The reading sequence supports the [six-week curriculum](../curriculum.html). Links point to the relevant course providers; availability of recordings, slides and student-only environments varies by term. This is an independent study program rather than an MIT or Stanford offering.
 
-## Week 1 — Workload anatomy and the roofline model
-**Stanford CS336 (Spring 2026):**
-- [Course schedule with recordings and materials](https://cs336.stanford.edu/).
-- Lecture 2: resource accounting (FLOPs, bytes and arithmetic intensity).
-- Lecture 3: Transformer architectures.
-- Lecture 10: inference and how batch/prefill/decode change bottlenecks.
-**MIT 6.5930:** [syllabus](https://csg.csail.mit.edu/6.5930/syllabus.html), especially Einsums + Transformers.
+## Module 1 · AI workloads and roofline analysis
 
-Task: list FLOPs and minimal modelled DRAM bytes for two GEMMs; run the CPU-only roofline demo. Explain what the simplified model leaves out.
+**Primary material:** [Stanford CS336](https://cs336.stanford.edu/) on model resource accounting, Transformer architecture and inference; [MIT 6.5930](https://csg.csail.mit.edu/6.5930/syllabus.html) on DNN workloads, Einsums and Transformer operators.
 
-## Week 2 — Accelerator architecture and dataflow
-**MIT 6.5930:** [official course schedule](https://csg.csail.mit.edu/6.5930/syllabus.html), lectures on Mapping: Dataflow & Partitioning and Fusion.
-**Stanford CS217:** [official accelerator design/HLS/FPGA course page](https://cs217.stanford.edu/).
-**Optional open-source tooling:** [Timeloop / Accelergy project](https://timeloop.csail.mit.edu/).
+**Engineering exercise:** A two-workload roofline comparison including GEMM FLOPs, minimal off-chip transfers, arithmetic intensity and assumptions about reuse.
 
-Task: compare doubled compute against doubled bandwidth at several batch sizes, then describe a plausible on-chip SRAM tiling strategy.
+## Module 2 · Accelerator architecture and dataflow
 
-## Week 3 — Algorithm/hardware co-design
-**MIT 6.5940 (Fall 2026):** [official schedule and posted slides/videos](https://hanlab.mit.edu/course). Prioritize pruning/sparsity, quantization, Transformers/LLMs, and LLM quantization.
-**Stanford CS336:** lectures 4 (attention alternatives), 5 (GPUs/TPUs), and 10 (inference).
+**Primary material:** [MIT 6.5930](https://csg.csail.mit.edu/6.5930/syllabus.html) on mapping and dataflow; [Stanford CS217](https://cs217.stanford.edu/) on accelerator architecture and hardware implementation; [Timeloop/Accelergy](https://timeloop.csail.mit.edu/) for an introduction to mapping tools.
 
-Task: compare approximate INT8 and FP16 weight traffic and state the extra assumptions needed to claim throughput or energy improvements.
+**Engineering exercise:** A small sweep comparing additional arithmetic throughput with additional memory bandwidth, accompanied by a proposed tiling strategy.
 
-## Week 4 — RTL and physical design
-**Stanford CS217:** official project overview (C++/SystemC, high-level synthesis, cloud FPGA evaluation).
-**Tools:** [Verilator](https://verilator.org/guide/latest/) for RTL simulation; [OpenROAD](https://openroad.readthedocs.io/) for open-source physical design.
+## Module 3 · Model-aware hardware optimization
 
-Task: prepare a block diagram tracing datapath → state/registers → synthesized cells → placed/routed physical chip. Optional: simulate a synchronous MAC. No physical board required.
+**Primary material:** [MIT 6.5940](https://hanlab.mit.edu/course) on quantization, sparsity and efficient inference; [Stanford CS336](https://cs336.stanford.edu/) on GPU/TPU performance, attention and inference.
 
-## Week 5 — Architecture design-space exploration
-**MIT 6.5930:** mapping, parallelism, fusion, sparsity and compute-in-memory course topics.
-**Optional simulation upgrade:** [AccelForge](https://accelergy-project.github.io/accelforge/guide/modeling.html) or [Timeloop/Accelergy](https://timeloop.csail.mit.edu/).
+**Engineering exercise:** An FP16/INT8 footprint comparison distinguishing the reduction in transferred bytes from actual execution speed and energy.
 
-Task: run the 16-case design sweep. Identify Pareto-relevant tradeoffs and test whether conclusions reverse when utilization is lower or external traffic increases.
+## Module 4 · RTL and physical constraints
 
-## Week 6 — Capstone and design review
-Revisit the official design-project descriptions for MIT 6.5930 and the practical architecture questions in Stanford CS217.
+**Primary material:** [Stanford CS217](https://cs217.stanford.edu/) on high-level synthesis and FPGA work; [Verilator](https://verilator.org/guide/latest/) documentation; [OpenROAD](https://openroad.readthedocs.io/) documentation.
 
-Task: fill in [capstone-template.md](capstone-template.md) with a numerical recommendation, a sensitivity analysis, a review-ready five-slide outline, and a plan for validating the proposal with higher-fidelity models.
+**Engineering exercise:** A register-to-register datapath diagram and assessment of synthesis and timing risks. Optional extension: RTL simulation for a small synchronous MAC.
 
-## Important course availability details
-- MIT 6.5930 Spring 2026 explicitly states its lectures **were not recorded**; public lecture notes and some PDFs are posted.
-- Stanford CS217 Winter 2026 includes **remote real FPGAs** but does not guarantee non-student access to FPGA labs or recordings.
-- Stanford CS336 Spring 2026 links public recordings, assignments, and GPU-intensive systems coursework.
-- MIT 6.5940 Fall 2026 posts many slides/videos, but availability depends on the specific class meeting.
-- This study path runs on a CPU-only laptop; the university classes' original assignments may require cloud hardware or course access.
+## Module 5 · Architecture design-space exploration
+
+**Primary material:** [MIT 6.5930](https://csg.csail.mit.edu/6.5930/syllabus.html) on mapping, fusion and system design; [Timeloop/Accelergy](https://timeloop.csail.mit.edu/) for additional modeling methods.
+
+**Engineering exercise:** A design-space sweep showing how architecture recommendations change with assumed utilization and memory traffic.
+
+## Module 6 · Technical architecture review
+
+**Primary material:** Revisit design-project topics from [MIT 6.5930](https://csg.csail.mit.edu/6.5930/) and implementation perspectives from [Stanford CS217](https://cs217.stanford.edu/).
+
+**Assessment:** The [capstone brief](../capstone.html) specifies an evidence-based architecture recommendation, reproducible comparison and validation plan.
+
+## Access and scope
+
+MIT 6.5930's Spring 2026 site indicates that its lectures were not recorded, although notes and other resources are available. Stanford CS217 describes hardware experiments on cloud-accessed FPGAs but does not guarantee public lab access. Stanford CS336 provides public course material, with some original assignments needing GPU compute. MIT 6.5940 has publicly posted materials, depending on session.
+
+The provided core exercises in this repository run on a CPU-only machine and are not official assignments from those universities.

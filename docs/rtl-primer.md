@@ -1,18 +1,20 @@
-# RTL and physical design: a fast primer
+# RTL and physical design: a concise technical overview
 
-- **Architecture:** Choose the workloads, compute arrays, memory capacity/bandwidth, interconnect, and numerical precision.
-- **Microarchitecture:** Specify pipelines, clock cycles, state machines, buffers, resource scheduling, and data movement.
-- **RTL (Register Transfer Level):** Encode cycle-level digital behavior in Verilog or SystemVerilog. Simulation checks behavior, not actual silicon speed.
-- **Synthesis:** Convert RTL to gates/registers under a standard-cell library and timing constraints.
-- **Physical design:** Place cells, build the clock tree, route wires, analyze parasitics and timing, and close power/performance/area (PPA).
-- **Fabrication and validation:** Produce real silicon and measure it.
+AI accelerator development spans architecture, microarchitecture, digital design and physical implementation. Each discipline addresses a different level of the hardware system.
 
-## Example
+| Stage | Key question | Typical work |
+|---|---|---|
+| Architecture | Which computational and memory resources should exist? | Arrays, hierarchy, bandwidth, interconnect, precision |
+| Microarchitecture | How is the architecture realized over clock cycles? | Buffers, pipelines, state machines, scheduling |
+| RTL | What is the cycle-level behavior of the digital design? | Verilog/SystemVerilog, registers, combinational logic, verification |
+| Logic synthesis | How can RTL be mapped to a technology library? | Gates, sequential cells, timing constraints |
+| Physical design | Can the netlist meet timing, power and area constraints? | Placement, clock-tree synthesis, routing, parasitic analysis |
+| Silicon validation | Does manufactured hardware meet specifications? | Timing, power, functional and reliability measurements |
 
-Doubling MACs may change a compute-bound model's theoretical execution time, but will do little if an LLM decoder is waiting for weights in memory. It can also increase area, routing congestion, timing and power.
+## Applied example
 
-## Optional activity (CPU only)
+Increasing the arithmetic capacity of a matrix-multiplication array can reduce the theoretical execution time of compute-limited operators. The benefit may disappear for memory-limited decoding, while larger logic structures may increase routing distance, area, power and timing complexity.
 
-Implement an 8-bit synchronous, registered multiply-accumulate. Describe reset behavior, numerical overflow and pipeline latency. Test using Verilator or Icarus Verilog. Explain why logic simulation alone cannot establish physical timing, dynamic power or silicon yield.
+## Optional RTL laboratory
 
-For tool docs: https://verilator.org/guide/latest/ and https://openroad.readthedocs.io/.
+A small synchronous multiply-accumulate unit provides a compact setting for reasoning about registered inputs, latency, pipeline stages, overflow and reset. Simulation through [Verilator](https://verilator.org/guide/latest/) evaluates functional behavior; it does not independently establish silicon timing or physical power consumption. [OpenROAD](https://openroad.readthedocs.io/) provides an introduction to physical design workflows and implementation constraints.

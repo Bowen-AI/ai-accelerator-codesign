@@ -1,38 +1,34 @@
-# Capstone: Workload-driven accelerator recommendation
+# Capstone assessment · Accelerator architecture design review
 
-**Topic:** One specific architecture improvement for a publicly described or illustrative AI workload. **Never include Google-internal information.**
+The final assessment applies workload characterization, analytical performance modeling, implementation awareness and engineering judgment to an accelerator design choice.
 
-## 1. Executive summary (maximum 200 words)
-Recommend a change and quantify the expected improvement *under an explicit set of assumptions*.
+**Objective.** Present an evidence-based recommendation for improving one well-defined class of AI workload. The analysis must use publicly documented or synthetic inputs and explicitly state its assumptions.
 
-## 2. Workload model
-Create a table with layer/operator, M/N/K dimensions, batch, precision, estimated FLOPs, modelled bytes, and reason for selecting it. Cover at least two workloads, preferably decode and prefill.
+## Scope
 
-## 3. Proposed architecture
-State baseline TOPS, memory bandwidth, utilization, assumed mapping/reuse and bottlenecks. List limitations, including cache capacity, interconnect, contention, clock frequency and power.
+The study examines at least two operating conditions, ideally contrasting autoregressive decoding and sequence prefill. Candidate changes may include additional compute capacity, memory bandwidth, on-chip data reuse or model precision.
 
-## 4. Controlled experiments
-Run the sweep in labs/roofline.py. Compare baseline, twice compute, twice memory bandwidth, twice both. Vary utilization and traffic multiplier to check whether the conclusion changes.
+## Required artifacts
 
-## 5. Design comparison
-Show results with estimated latency, throughput assumptions and (if independently justified) an area/energy proxy. **The provided toy model does not output real area or energy.**
+**Architecture memo.** A brief, structured report containing:
 
-## 6. Decision
-Which investment gives the strongest workload improvement for an assumed resource budget? Show the sensitivity of the answer and what additional evidence would change your conclusion.
+1. **Problem and workload.** Model/operator, GEMM dimensions, precision, batch size, estimated operation counts and data movement.
+2. **Baseline.** Assumed compute capability, bandwidth, utilization, memory traffic and resulting performance bound.
+3. **Alternatives.** At least four controlled configurations including increased compute, bandwidth and both combined.
+4. **Results.** Comparative table or figures, interpretation, sensitivity to utilization and memory-transfer assumptions.
+5. **Recommendation.** The preferred alternative for a clearly stated objective, possible counterexamples and relevant uncertainties.
+6. **Validation.** A plan to test the hypothesis in higher-fidelity modeling, RTL, physical implementation or cloud hardware.
 
-## 7. Validation plan
-Name an appropriate next tool: Timeloop/Accelergy for mapping/activity estimates; RTL simulation for correctness; OpenROAD for implementation constraints; cloud FPGA/GPU for measured kernels.
+**Five-slide review.** Workload; baseline bottleneck; architectural alternatives; evidence and limitations; recommendation and validation plan.
 
-## Five-slide review
-1. Workload and problem
-2. Bottleneck and baseline
-3. Architecture alternatives
-4. Evidence, sensitivity, limitations
-5. Recommendation and next experiment
+## Assessment criteria
 
-## Completion rubric
-- Numerical assumptions are clearly documented.
-- Each claim is supported by a calculation or experiment.
-- Trade-offs and counterexamples are included.
-- Physical-design limitations are not misrepresented as measured.
-- No confidential employer designs or performance data.
+Technical work is judged by the correctness of assumptions and units, reproducible experiments, relevance to actual workload bottlenecks, recognition of uncertain effects and clarity of the recommendation.
+
+## Important limitations
+
+The included roofline simulator is a first-order analytical model. It **does not** estimate transistor area, energy, physical clock speed or route timing. Those require additional methods and evidence. Claims about fabricated silicon must not be inferred from the simple simulator.
+
+Any public submission must exclude employer-confidential designs, internal performance measurements, vendor specifications and private data. Use only public or synthetic examples.
+
+See the full [capstone project page](../capstone.html) and [course curriculum](../curriculum.html).

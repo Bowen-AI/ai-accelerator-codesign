@@ -1,14 +1,39 @@
-# AI Accelerator Co-Design: 6-Week Intensive
+# AI Accelerator Co-Design
 
-**Goal:** Develop the ability to identify bottlenecks in AI workloads and make a defensible accelerator architecture recommendation, using a CPU-only laptop.
+**An independent, open six-week course in AI accelerator architecture and hardware–software co-design.**
 
-**Who it is for:** Software / systems engineers working near TPU, GPU, chip or AI accelerator design. Assumes Python and basic linear algebra; no previous RTL or VLSI experience needed.
+**[Course website](https://bowen-ai.github.io/ai-accelerator-codesign/) · [Full curriculum](https://bowen-ai.github.io/ai-accelerator-codesign/curriculum.html) · [Reading library](https://bowen-ai.github.io/ai-accelerator-codesign/readings.html) · [Capstone brief](https://bowen-ai.github.io/ai-accelerator-codesign/capstone.html)**
 
-**Effort:** 6 weeks, **8–10 hours/week** (48–60 hours). For a four-week sprint, combine Weeks 1+2 and Weeks 3+4 and reduce the final project. For deeper mastery, add the optional RTL, FPGA and advanced-mapping exercises (another 4–6 weeks).
+This course examines a central challenge in accelerator engineering: identifying which hardware changes meaningfully improve the performance of modern AI workloads. It connects Transformer operations, data movement, accelerator organization, microarchitecture and practical implementation constraints.
 
-**Public study site:** Open [`index.html`](./index.html) in a browser. It works fully offline (external course links require internet). For GitHub Pages, see [Publishing](#publishing-to-github-pages).
+The course is designed for programmers and systems engineers with a working understanding of linear algebra. No prior RTL knowledge is required. The **core is CPU-only**; access to a TPU, FPGA or discrete GPU is optional.
 
-**Run the labs:** Python 3.10+; **no Python packages needed**.
+## Course at a glance
+
+| Duration | Workload | Required hardware | Final assessment |
+|---|---|---|---|
+| 6 weeks | 8–10 hours/week (48–60 total) | Python 3.10+ on a CPU computer | Workload-driven architecture design review |
+
+| Module | Focus | Technical output |
+|---|---|---|
+| 01 | Workload characterization | Resource accounting and bottleneck analysis |
+| 02 | Architecture and dataflow | Compute–bandwidth design comparison |
+| 03 | Model-aware co-design | Precision and traffic sensitivity report |
+| 04 | RTL and physical constraints | Implementation risk assessment |
+| 05 | Design-space exploration | Controlled experiment and design shortlist |
+| 06 | Architecture review | Capstone memo and five-slide presentation |
+
+The complete study sequence, prerequisites and assessments are described in the [public curriculum](https://bowen-ai.github.io/ai-accelerator-codesign/curriculum.html). University references appear in the [reading library](https://bowen-ai.github.io/ai-accelerator-codesign/readings.html).
+
+## Interactive study site
+
+GitHub Pages serves the static website from the root HTML files and `assets/site.css`, using the [Pages deployment workflow](.github/workflows/deploy-pages.yml). The site includes an interactive **roofline trade-off explorer** that runs directly in the browser.
+
+The browser model illustrates a simplified relationship between compute demand, external memory traffic and latency. **It is not a TPU emulator, cycle-accurate architecture simulation, power estimate or silicon benchmark.** The program explicitly states its modeling assumptions.
+
+## Reproducible Python lab
+
+The educational simulator requires only Python 3.10+ and the standard library:
 
 ```bash
 python3 labs/roofline.py --demo
@@ -16,69 +41,23 @@ python3 labs/roofline.py --sweep --out results.csv
 python3 -m unittest discover -s labs -p 'test_*.py'
 ```
 
-## Hardware requirements and what the official courses actually use
+The model evaluates illustrative GEMM workloads against hypothetical accelerator configurations. Its CPU-only scripts produce estimated time floors, not measured processor performance.
 
-- **MIT 6.5930 (Spring 2026)**: hands-on labs in DNN workload analysis, mapping, sparsity and compute-in-memory; the publicly described work centers on architecture modeling and open-ended design, including AccelForge. You do not need to own an accelerator. Some classroom lab materials may require course access. **MIT explicitly said it would not record the 2026 lectures**, though notes/slides were linked publicly.
-- **Stanford CS217 (Winter 2026)**: includes **real cloud FPGA evaluation** of C++/SystemC high-level synthesis designs. It does not require owning an FPGA, but reproducing the full enrolled-class flow may need provisioned cloud resources and course tooling. The public syllabus is not a guarantee of open lab access.
-- **Stanford CS336 (Spring 2026)**: public videos and assignments; the full model-training and GPU-kernel assignments require GPU compute, which self-study students may rent remotely. Our selected analytical workload exercises don't.
-- **MIT 6.5940 (Fall 2026)**: public videos and slides where posted; labs include GPU basics and on-laptop LLM deployment. Some original exercises may require a GPU; our replacements do not.
+## Selected academic references
 
-Core labs here are **original, CPU-friendly educational exercises**. They are not official course assignments. Results are analytical models, **not physical-chip benchmarks** or measured power, and should not be presented as real TPU performance.
+- [MIT 6.5930 — Hardware Architecture for Deep Learning](https://csg.csail.mit.edu/6.5930/syllabus.html): architecture design, workload mapping and exploration.
+- [Stanford CS217 — Hardware Accelerators for Machine Learning](https://cs217.stanford.edu/): accelerator architecture, high-level synthesis and remote cloud FPGA work.
+- [MIT 6.5940 — Efficient AI Computing](https://hanlab.mit.edu/course): quantization, pruning and efficient inference.
+- [Stanford CS336 — Language Modeling from Scratch](https://cs336.stanford.edu/): Transformer workloads, GPU/TPU performance and inference.
 
-For lecture-by-lecture pointers and what to read each week, see the **[curated course materials and reading path](docs/course-materials.md)**.
+The original university courses vary in publicly available lectures, exercises and computing resources. This project draws on openly accessible materials and provides **independently authored exercises**, not redistributed university courseware or solutions. Course participation and academic credit are not provided by this repository.
 
-## Syllabus: exact topics, materials, exercises, deliverables
+## Further study
 
-| Week | Topics (8–10 hours) | Study materials | Hands-on deliverable |
-|---|---|---|---|
-| **1: Workloads & bottlenecks** | Transformer inference prefill vs decode; GEMM dimensions; FLOPs/MACs; parameters, activation and KV cache traffic; arithmetic intensity and roofline | [Stanford CS336](https://cs336.stanford.edu/) intro + systems lectures; [MIT 6.5930 syllabus](https://csg.csail.mit.edu/6.5930/syllabus.html) overview and Einsums/Transformers; [MIT 6.5940](https://hanlab.mit.edu/course) intro | Run `roofline.py --demo`. Create a table of GEMM vs memory-bound cases and a one-page bottleneck diagnosis. |
-| **2: Accelerator architecture** | PEs/MAC arrays, systolic dataflow, hierarchy SRAM/HBM, reuse, tiling, mapping and bandwidth ceilings; latency versus throughput | [Stanford CS217](https://cs217.stanford.edu/) course overview; [MIT 6.5930](https://csg.csail.mit.edu/6.5930/syllabus.html) Mapping/Dataflow notes; [Timeloop/Accelergy](https://timeloop.csail.mit.edu/) | Sweep compute and bandwidth. Build a 2×2 design tradeoff matrix: compute × bandwidth. |
-| **3: AI algorithm–hardware co-design** | Attention and KV-cache decoding; batch size, prompt length, precision and quantization; sparsity and pruning; when theoretical FLOP reduction helps or hurts | [MIT 6.5940](https://hanlab.mit.edu/course) pruning/quantization videos; [Stanford CS336](https://cs336.stanford.edu/) systems/performance topics; [MIT 6.5930](https://csg.csail.mit.edu/6.5930/syllabus.html) sparsity/precision notes | Analyze FP16 vs INT8 assumed traffic and compute. Compare prefill with decode; note modeling assumptions. |
-| **4: RTL, synthesis, physical constraints** | Architecture vs microarchitecture vs RTL; registers, clocking, pipelines, synthesis, critical paths, power–performance–area (PPA); placement, routing and timing | [Stanford CS217](https://cs217.stanford.edu/) C++/SystemC HLS description; [Verilator](https://verilator.org/guide/latest/); [OpenROAD](https://openroad.readthedocs.io/) | Write a block-level accelerator diagram and an original timing/area constraint worksheet. Optional: implement small MAC pipeline in Verilog and simulate locally. |
-| **5: Design-space exploration** | Area / throughput / energy proxies; bottleneck shifts; workload mixes, mapping and fusion; Pareto frontiers, sensitivity analysis and model uncertainty | [MIT 6.5930](https://csg.csail.mit.edu/6.5930/info.html) mapping/fusion labs; [AccelForge docs](https://accelergy-project.github.io/accelforge/guide/modeling.html); [Timeloop](https://timeloop.csail.mit.edu/) | Run the automated sweep and select two non-dominated designs. Draft architecture recommendation (with caveats). |
-| **6: Capstone & communication** | End-to-end AI accelerator co-design; selecting an objective, checking assumptions, arguing design choices; optional real GPU/FPGA validation | Revisit [MIT 6.5930](https://csg.csail.mit.edu/6.5930/) capstone outline and [Stanford CS217](https://cs217.stanford.edu/) HLS/FPGA scope | Complete `docs/capstone-template.md`: executive summary, workloads, baseline, scenarios, Pareto chart, sensitivity, risks and recommended next experiments. |
+The optional advanced track extends analytical models to mapping simulators such as [Timeloop/Accelergy](https://timeloop.csail.mit.edu/), RTL simulation using [Verilator](https://verilator.org/guide/latest/), physical design with [OpenROAD](https://openroad.readthedocs.io/) and independently accessible GPU/FPGA experiments.
 
-### Weekly cadence
+## Publishing and contribution
 
-- **~2 hours**: lecture videos, slides or public notes.
-- **~2 hours**: reproduce formulas by hand and make design assumptions explicit.
-- **~3–4 hours**: coding/measurement in the provided CPU-only simulator.
-- **~1–2 hours**: short memo and review; make one decision-oriented claim backed by numbers.
+The static site is deployed using GitHub Actions; technical details are documented in [PUBLISHING.md](PUBLISHING.md). Changes to public study material should preserve attribution and avoid proprietary code, non-public data, vendor IP or confidential employer designs.
 
-### Checkpoints
-
-- Week 1: identify a compute-bound and memory-bound workload with quantitative justification.
-- Week 2: explain the bottleneck after doubling MAC throughput or memory bandwidth.
-- Week 3: compare at least two precision or caching assumptions.
-- Week 4: identify the RTL/microarchitecture/physical-design boundaries in a proposed change.
-- Week 5: produce a design-space sweep and point out model uncertainty.
-- Week 6: present one actionable hardware recommendation with evidence and validation plan.
-
-## Optional advanced track (after six weeks)
-
-1. Replace the roofline proxy with **AccelForge** or **Timeloop/Accelergy** for realistic mapping and energy proxies, following the official tool documentation. No fabricated chip required, but setup is more involved.
-2. Add a cycle-approximate RTL design using Verilator; optionally run OpenROAD (toolchain and PDK constraints apply).
-3. If you have independent access to a cloud FPGA or GPU, validate selected kernels remotely. This is a **remote real-hardware** experiment, not emulation; budgets and tool availability vary.
-
-## Resources and attribution
-
-**Curated links, not copied university courseware:**
-- MIT 6.5930: <https://csg.csail.mit.edu/6.5930/> (public notes and syllabus; 2026 lectures not recorded).
-- Stanford CS217: <https://cs217.stanford.edu/> (cloud FPGA/HLS work described on official course page).
-- MIT 6.5940: <https://hanlab.mit.edu/course> (videos/slides where posted).
-- Stanford CS336: <https://cs336.stanford.edu/> (recordings, assignments, GPU requirements).
-- MIT CSAIL Timeloop/Accelergy: <https://timeloop.csail.mit.edu/>.
-- AccelForge: <https://accelergy-project.github.io/accelforge/guide/modeling.html>.
-- Verilator: <https://verilator.org/guide/latest/>; OpenROAD: <https://openroad.readthedocs.io/>.
-
-The files, notes, worksheets and original simulator in this study project are original educational content. Follow upstream licenses and course policies before redistributing their material. **Avoid posting employer-confidential designs, TPU performance figures or internal Google specifications** into a public repository.
-
-## Publishing on Bowen-AI GitHub Pages
-
-The source repository is [Bowen-AI/ai-accelerator-codesign](https://github.com/Bowen-AI/ai-accelerator-codesign). After GitHub Pages is enabled, the expected website is [bowen-ai.github.io/ai-accelerator-codesign](https://bowen-ai.github.io/ai-accelerator-codesign/). This URL is not confirmed live until a successful Pages deployment.
-
-In GitHub: **Settings → Pages → Build and deployment → Deploy from a branch → main → /(root) → Save**. See [PUBLISHING.md](PUBLISHING.md). All materials on this public site are public or original; do not upload employer-confidential content.
-
-## License
-
-Original study artifacts and example code in this project: MIT License (see [`LICENSE`](./LICENSE)). University links/content retain their own rights.
+Original repository content is available under the [MIT License](LICENSE). Third-party resources retain their respective rights. **This independent course is not affiliated with or endorsed by MIT, Stanford or Google.**
