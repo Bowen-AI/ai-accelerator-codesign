@@ -25,6 +25,8 @@ python3 -m unittest discover -s labs -p 'test_*.py'
 
 Core labs here are **original, CPU-friendly educational exercises**. They are not official course assignments. Results are analytical models, **not physical-chip benchmarks** or measured power, and should not be presented as real TPU performance.
 
+For lecture-by-lecture pointers and what to read each week, see the **[curated course materials and reading path](docs/course-materials.md)**.
+
 ## Syllabus: exact topics, materials, exercises, deliverables
 
 | Week | Topics (8–10 hours) | Study materials | Hands-on deliverable |
